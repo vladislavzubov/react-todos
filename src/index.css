@@ -58,16 +58,20 @@ body {
   border: 1px solid #e6e6e6;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .wrapper .app .app__footer-all .app__footer .app__footer-btn {
   background-color: white;
   border: 0;
   color: #838792;
-  margin-right: 10px;
+  margin-right: 5px;
+  margin-left: 5px;
 }
-
+.wrapper .app .app__footer-all .app__footer .app__footer-clear #clear {
+  float: right;
+  color: brown;
+}
 .wrapper .app .app__footer-all .app__footer-one {
   background-color: white;
   width: 98%;
