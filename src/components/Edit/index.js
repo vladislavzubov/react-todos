@@ -1,6 +1,5 @@
 import React from "react";
 
-
 export default class Edit extends React.Component {
   state = {
     text: this.props.text
@@ -8,7 +7,7 @@ export default class Edit extends React.Component {
 
   componentDidMount() {
     // ставим фокус в input
-    this.nameInput.focus()
+    this.editInput.focus()
   }
 
   handleChange = (e) => {
@@ -17,11 +16,14 @@ export default class Edit extends React.Component {
 
   handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      e.preventDefault();
-      const { text } = this.state;
-      if (text.trim()) {
-        this.props.editTextFromInput(text)
-      }
+      this.editItemText(e);
+    }
+  };
+  editItemText = (e) => {
+    e.preventDefault();
+    const { text } = this.state;
+    if (text.trim()) {
+      this.props.editTextFromInput(text)
     }
   };
 
@@ -29,13 +31,15 @@ export default class Edit extends React.Component {
     const { text } = this.state;
     return (
       <div className="edit-input">
-        <input className="edit-input"
-               onChange={this.handleChange}
-               value={text}
-               onKeyPress={this.handleKeyPress}
-               ref={(input) => {
-                 this.nameInput = input;
-               }}
+        <input
+          className="edit-input"
+          onChange={this.handleChange}
+          onBlur={this.editItemText}
+          value={text}
+          onKeyPress={this.handleKeyPress}
+          ref={(input) => {
+            this.editInput = input;
+          }}
         />
       </div>
     )

@@ -1,8 +1,8 @@
-import React from "react";
+import React, { Component, Fragment } from "react";
 import Item from '../Item/index.js'
 import Footer from '../Footer/index.js'
 
-export default class Body extends React.Component {
+export default class Body extends Component {
   state = {
     all: true,
     active: false,
@@ -22,21 +22,21 @@ export default class Body extends React.Component {
   };
 
   handleBtnDeleteClick = () => {
-    let { data } = this.props;
+    let { data, deleteItems } = this.props;
     data = data.filter(item => !item.checked);
-    this.props.deleteItems(data);
+    deleteItems(data);
   };
 
   deleteItemById = (id) => {
-    let { data } = this.props;
+    let { data, deleteItems } = this.props;
 
     data.forEach((item, index, object) => {
-      if (item.id == id) {
+      if (+item.id === +id) {
         object.splice(index, 1);
       }
     });
 
-    this.props.deleteItems(data);
+    deleteItems(data);
   };
 
   renderItem = () => {
@@ -46,8 +46,7 @@ export default class Body extends React.Component {
     if (data.length) {
       const clickOnCheckbox = this.props.clickOnCheckbox;
       const deleteItemById = this.deleteItemById;
-      itemsTemplate = data.map(function (item) {
-        return (
+      itemsTemplate = data.map((item) => (
           <Item key={item.id}
                 data={item}
                 visibleFlags={visibleFlags}
@@ -55,7 +54,7 @@ export default class Body extends React.Component {
                 deleteItemById={deleteItemById}
           />
         )
-      })
+      )
     } else {
       itemsTemplate = null;
     }
@@ -66,19 +65,19 @@ export default class Body extends React.Component {
     const { data } = this.props;
     const visible = data.length > 0;
     return (
-      <React.Fragment>
+      <Fragment>
         <div className="app__body">
           {this.renderItem()}
         </div>
-        {
-          visible && <Footer
+        {visible && (
+          <Footer
             handleBtnClick={this.handleBtnClick}
             getCountItemsLeft={this.props.getCountItemsLeft}
             numberItems={this.props.data.length}
             handleBtnDeleteClick={this.handleBtnDeleteClick}
           />
-        }
-      </React.Fragment>
+        )}
+      </Fragment>
     )
   }
 }

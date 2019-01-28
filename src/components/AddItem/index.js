@@ -32,8 +32,10 @@ export default class AddItem extends React.Component {
     const showBtn = this.props.countAllItems > 0;
     return (
       <div className="app__add">
-        <div className="app_add-check-all">
-          {showBtn && <button className="check-all-btn" onClick={this.clickBtnInAdd}/>}
+        <div className="app_add-check-all" onClick={this.clickBtnInAdd}>
+          {showBtn && (
+            <i className='check'/>
+          )}
         </div>
         <div className="app__add-input">
           <input
@@ -48,3 +50,4 @@ export default class AddItem extends React.Component {
     )
   }
 }
+

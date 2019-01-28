@@ -8,6 +8,7 @@ export default class App extends React.Component {
     items: [],
     checkedFlag: 0
   };
+
   handleItems = (data) => {
     const nextItems = [data, ...this.state.items];
     this.setState({ items: nextItems });
@@ -35,9 +36,6 @@ export default class App extends React.Component {
     let { items } = this.state;
     let { checkedFlag } = this.state;
     const len = items.length;
-    console.log('------items:', items);
-    console.log('------len:', len);
-    console.log('------checkedFlag:', checkedFlag);
     if (checkedFlag === len) {
       items.forEach(i => {
         i.checked = false;
@@ -49,8 +47,6 @@ export default class App extends React.Component {
       });
       checkedFlag = len;
     }
-
-
     this.setState({ items: items, checkedFlag: checkedFlag });
   };
 
@@ -71,9 +67,10 @@ export default class App extends React.Component {
       <div className="wrapper">
         <div className="app">
           <Header/>
-          <AddItem handleItems={this.handleItems}
-                   clickBtnInAdd={this.clickBtnInAdd}
-                   countAllItems={items.length}
+          <AddItem
+            handleItems={this.handleItems}
+            clickBtnInAdd={this.clickBtnInAdd}
+            countAllItems={items.length}
           />
           <Body
             data={items}
