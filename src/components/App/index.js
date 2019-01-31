@@ -2,6 +2,9 @@ import React from "react";
 import Header from '../Header/index.js'
 import AddItem from '../AddItem/index.js'
 import Body from '../Body/index.js'
+import setAllTasksFromServer from '../../requests/get.js'
+import unloadNewTaskOnServer from '../../requests/post.js'
+import updateItemFromServerById from '../../requests/put.js'
 
 export default class App extends React.Component {
   state = {
@@ -9,8 +12,13 @@ export default class App extends React.Component {
     checkedFlag: 0
   };
 
-  handleItems = (data) => {
-    const nextItems = [data, ...this.state.items];
+  componentDidMount() {
+    setAllTasksFromServer(this);
+  }
+
+  handleItems = (task) => {
+    const nextItems = [task, ...this.state.items];
+    unloadNewTaskOnServer(task);
     this.setState({ items: nextItems });
   };
 
@@ -24,6 +32,7 @@ export default class App extends React.Component {
     data.forEach(i => {
       if (i.id === id) {
         i.checked = !i.checked;
+        updateItemFromServerById(i.checked, i.text, i.id);
       }
       if (i.checked === true) {
         checkedFlag++;
@@ -40,11 +49,15 @@ export default class App extends React.Component {
       items.forEach(i => {
         i.checked = false;
       });
+      const idOfItems = items.map(item => item.id);
+      updateItemFromServerById(false, null, idOfItems);
       checkedFlag = 0;
     } else {
       items.forEach(i => {
         i.checked = true;
       });
+      const idOfItems = items.map(item => item.id);
+      updateItemFromServerById(true, null, idOfItems);
       checkedFlag = len;
     }
     this.setState({ items: items, checkedFlag: checkedFlag });
@@ -53,11 +66,13 @@ export default class App extends React.Component {
   getCountItemsLeft = () => {
     let count = 0;
     const { items } = this.state;
-    items.forEach(item => {
-      if (!item.checked) {
-        count++;
-      }
-    });
+    if (items.length) {
+      items.forEach(item => {
+        if (!item.checked) {
+          count++;
+        }
+      });
+    }
     return count;
   };
 

@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import Item from '../Item/index.js'
 import Footer from '../Footer/index.js'
+import deleteItemsFromServerById from '../../requests/delete.js'
 
 export default class Body extends Component {
   state = {
@@ -23,19 +24,23 @@ export default class Body extends Component {
 
   handleBtnDeleteClick = () => {
     let { data, deleteItems } = this.props;
-    data = data.filter(item => !item.checked);
-    deleteItems(data);
+    const deletedItems = data.filter(item => item.checked);
+    const savedItems = data.filter(item => !item.checked);
+    const idOfDeletedItems = deletedItems.map(item => {
+      return item.id
+    });
+    deleteItemsFromServerById(idOfDeletedItems);
+    deleteItems(savedItems);
   };
 
   deleteItemById = (id) => {
     let { data, deleteItems } = this.props;
-
     data.forEach((item, index, object) => {
       if (+item.id === +id) {
+        deleteItemsFromServerById(id);
         object.splice(index, 1);
       }
     });
-
     deleteItems(data);
   };
 
