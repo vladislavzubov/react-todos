@@ -34,6 +34,7 @@ body {
 }
 
 .wrapper .app .app__add .app__add-input .app__input-text {
+  background-color: white;
   float: right;
   font-family: "Courier", serif;
   font-size: 20px;

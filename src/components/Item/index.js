@@ -1,5 +1,6 @@
 import React from "react";
 import Edit from '../Edit/index.js'
+import updateItemFromServerById from '../../requests/put.js'
 
 export default class Item extends React.Component {
   state = {
@@ -30,6 +31,8 @@ export default class Item extends React.Component {
   };
 
   editTextFromInput = (text) => {
+    const { checked, id } = this.props.data;
+    updateItemFromServerById(checked, text, id);
     this.setState({ text: text, visibleEdit: !this.state.visibleEdit });
   };
 
